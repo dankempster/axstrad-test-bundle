@@ -18,6 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -108,6 +109,14 @@ abstract class WebTestCase extends BaseWebTestCase
     }
 
     /**
+     * Should schema be loaded quietly
+     */
+    protected function loadSchemaQuietly()
+    {
+        return true;
+    }
+
+    /**
      * Creates schema
      *
      * Only creates schema if loadSchema() is set to true.
@@ -123,24 +132,27 @@ abstract class WebTestCase extends BaseWebTestCase
             return $this;
         }
 
+        $output = new BufferedOutput();
+
         static::$application->run(new ArrayInput(array(
             'command'          => 'doctrine:database:drop',
             '--no-interaction' => true,
             '--force'          => true,
-            '--quiet'          => true,
-        )));
+        )), $output);
 
         static::$application->run(new ArrayInput(array(
             'command'          => 'doctrine:database:create',
             '--no-interaction' => true,
-            '--quiet'          => true,
-        )));
+        )), $output);
 
         static::$application->run(new ArrayInput(array(
             'command'          => 'doctrine:schema:create',
             '--no-interaction' => true,
-            '--quiet'          => true,
-        )));
+        )), $output);
+
+        if (!$this->loadSchemaQuietly()) {
+            echo $output->fetch();
+        }
 
         $this->loadFixtures();
 
