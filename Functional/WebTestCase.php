@@ -93,7 +93,7 @@ abstract class WebTestCase extends BaseWebTestCase
      *
      * @return array Bundles name where fixtures should be found
      */
-    protected function loadFixturesBundles()
+    protected function loadBundlesFixtures()
     {
         return false;
     }
@@ -173,14 +173,14 @@ abstract class WebTestCase extends BaseWebTestCase
      */
     protected function loadFixtures()
     {
-        if (!is_array($this->loadFixturesBundles())) {
+        if (!is_array($this->loadBundlesFixtures())) {
             return $this;
         }
 
         $bundles = static::$kernel->getBundles();
         $formattedBundles = array_map(function ($bundle) use ($bundles) {
             return $bundles[$bundle]->getPath() . '/DataFixtures/ORM/';
-        }, $this->loadFixturesBundles());
+        }, $this->loadBundlesFixtures());
 
         self::$application->run(new ArrayInput(array(
             'command'          => 'doctrine:fixtures:load',
