@@ -186,7 +186,6 @@ abstract class WebTestCase extends BaseWebTestCase
             'command'          => 'doctrine:fixtures:load',
             '--no-interaction' => true,
             '--fixtures'       => $formattedBundles,
-            '--quiet'          => true,
         )));
 
         return $this;
