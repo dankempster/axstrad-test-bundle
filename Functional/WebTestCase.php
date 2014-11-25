@@ -86,6 +86,8 @@ abstract class WebTestCase extends BaseWebTestCase
             '--force'          => true,
             '--quiet'          => true,
         )));
+
+        parent::tearDown();
     }
 
     /**
