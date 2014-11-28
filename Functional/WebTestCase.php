@@ -80,12 +80,18 @@ abstract class WebTestCase extends BaseWebTestCase
     {
         if (!static::$application) return;
 
+        $output = new BufferedOutput();
+
         static::$application->run(new ArrayInput(array(
             'command'          => 'doctrine:database:drop',
             '--no-interaction' => true,
             '--force'          => true,
             '--quiet'          => true,
-        )));
+        )), $output);
+
+        if (!$this->runCommandsQuietly()) {
+            echo $output->fetch();
+        }
 
         parent::tearDown();
     }
@@ -113,7 +119,7 @@ abstract class WebTestCase extends BaseWebTestCase
     /**
      * Should schema be loaded quietly
      */
-    protected function loadSchemaQuietly()
+    protected function runCommandsQuietly()
     {
         return true;
     }
@@ -152,7 +158,7 @@ abstract class WebTestCase extends BaseWebTestCase
             '--no-interaction' => true,
         )), $output);
 
-        if (!$this->loadSchemaQuietly()) {
+        if (!$this->runCommandsQuietly()) {
             echo $output->fetch();
         }
 
@@ -184,11 +190,17 @@ abstract class WebTestCase extends BaseWebTestCase
             return $bundles[$bundle]->getPath() . '/DataFixtures/ORM/';
         }, $this->loadBundlesFixtures());
 
+        $output = new BufferedOutput();
+
         self::$application->run(new ArrayInput(array(
             'command'          => 'doctrine:fixtures:load',
             '--no-interaction' => true,
             '--fixtures'       => $formattedBundles,
-        )));
+        )), $output);
+
+        if (!$this->runCommandsQuietly()) {
+            echo $output->fetch();
+        }
 
         return $this;
     }
