@@ -13,12 +13,12 @@
  */
 namespace Axstrad\Bundle\TestBundle\Functional;
 
+use Axstrad\Component\Test\Console\Output\BufferedOutput;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\HttpKernel\KernelInterface;
