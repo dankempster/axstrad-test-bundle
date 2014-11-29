@@ -99,7 +99,7 @@ abstract class WebTestCase extends BaseWebTestCase
     /**
      * Load fixtures of these bundles
      *
-     * @return array Bundles name where fixtures should be found
+     * @return boolean|array Bundles name where fixtures should be found
      */
     protected function loadBundlesFixtures()
     {
