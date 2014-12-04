@@ -1,0 +1,38 @@
+{
+    "name": "axstrad/test-bundle",
+    "type": "library",
+    "description": "Symfony 2 Bundle for testing my other bundles",
+    "keywords": [],
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Dan Kempster",
+            "email": "dev@dankempster.co.uk",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "phpunit/phpunit": "~4.1",
+        "symfony/console": "~2.3",
+        "symfony/framework-bundle": "~2.3"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "Axstrad\\Bundle\\TestBundle\\": ""
+        }
+    },
+
+    "archive": {
+        "exclude": [
+            ".gitignore",
+            ".scrutinizer.yml",
+            ".travis.yml",
+            "Tests",
+            "build",
+            "phpunit.xml*",
+            "vendor"
+        ]
+    }
+}
