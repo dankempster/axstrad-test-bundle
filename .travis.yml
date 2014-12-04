@@ -11,7 +11,7 @@ env:
   - SYMFONY_VERSION="2.7.*@dev"
   # - SYMFONY_VERSION="3.0.*@dev"
 before_script:
-  - composer require symfony/console:${SYMFONY_VERSION} symfony/framework-bundle:${SYMFONY_VERSION}
+  - php -d gc_enabled=0 $(which composer) -- require symfony/console:${SYMFONY_VERSION} symfony/framework-bundle:${SYMFONY_VERSION} --prefer-dist
 script:
   - php ./vendor/phpunit/phpunit/phpunit --coverage-clover=coverage.clover
 # after_script:

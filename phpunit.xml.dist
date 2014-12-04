@@ -13,7 +13,7 @@
         </testsuite>
     </testsuites>
 
-    <logging>
+    <!-- <logging>
         <log type="coverage-html"
              target="build/coverage"
              title="Axstrad Library"
@@ -25,7 +25,7 @@
         />
         <log type="coverage-clover" target="build/logs/clover.xml"/>
         <log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false"/>
-    </logging>
+    </logging> -->
 
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
