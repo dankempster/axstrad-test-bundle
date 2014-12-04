@@ -13,7 +13,7 @@ env:
 before_script:
   - composer require symfony/symfony:${SYMFONY_VERSION}
 script:
-  - php ./vendor/phpunit/phpunit/phpunit -c phpunit.xml.dist --coverage-clover=coverage.clover
+  - php ./vendor/phpunit/phpunit/phpunit --coverage-clover=coverage.clover
 # after_script:
 #   - wget https://scrutinizer-ci.com/ocular.phar
 #   - php ocular.phar code-coverage:upload --access-token="80b65a15a783f3ca91af2635f701052e94179ebf84aad0a031dcc90dddd30394" --format=php-clover coverage.clover
@@ -24,3 +24,6 @@ matrix:
 notifications:
   email:
     - dev@dankempster.co.uk
+branches:
+  only:
+    - develop
