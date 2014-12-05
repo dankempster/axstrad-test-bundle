@@ -44,6 +44,12 @@ abstract class WebTestCase extends BaseWebTestCase
     protected $client;
 
     /**
+     * @todo [BC Break] Replace the non-static property with this one.
+     * @var Client
+     */
+    private static $_client;
+
+    /**
      * @var ContainerInterface
      *
      * Container
@@ -58,8 +64,10 @@ abstract class WebTestCase extends BaseWebTestCase
         gc_collect_cycles();
 
         try {
-            static::$kernel = static::createKernel();
-            static::$kernel->boot();
+            $this->client = self::$_client = parent::createClient(
+                $this->getKernelOptions(),
+                $this->getServerParameters()
+            );
 
             static::$application = new Application(static::$kernel);
             static::$application->setAutoExit(false);
@@ -104,6 +112,22 @@ abstract class WebTestCase extends BaseWebTestCase
     protected function loadBundlesFixtures()
     {
         return false;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getKernelOptions()
+    {
+        return array();
+    }
+
+    /**
+     * @return array An array of server parameters to pass to the test client
+     */
+    protected function getServerParameters()
+    {
+        return array();
     }
 
     /**
@@ -220,6 +244,19 @@ abstract class WebTestCase extends BaseWebTestCase
         $kernelClass = $namespaceExploded[0] . '\\Tests\\Functional\\app\\AppKernel';
 
         return $kernelClass;
+    }
+
+    /**
+     * Creates a Client.
+     *
+     * @param array $options An array of options to pass to the createKernel class
+     * @param array $server  An array of server parameters
+     *
+     * @return Client A Client instance
+     */
+    protected static function createClient(array $options = array(), array $server = array())
+    {
+        return self::$_client;
     }
 
     /**
