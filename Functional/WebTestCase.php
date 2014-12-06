@@ -61,8 +61,6 @@ abstract class WebTestCase extends BaseWebTestCase
      */
     public function setUp()
     {
-        gc_collect_cycles();
-
         try {
             $this->client = self::$_client = parent::createClient(
                 $this->getKernelOptions(),
