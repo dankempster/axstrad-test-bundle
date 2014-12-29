@@ -25,6 +25,19 @@ use Symfony\Component\HttpKernel\Kernel;
  */
 abstract class AbstractAxstradKernel extends Kernel
 {
+    protected $testInfo = array();
+
+    protected $phpunitDebug = false;
+
+    private $uniqueAppDir = null;
+
+    public function __construct($environment, $debug, array $testInfo)
+    {
+        $this->testInfo = $testInfo;
+
+        parent::__construct($environment, $debug);
+    }
+
     /**
      * Register container configuration
      *
@@ -37,6 +50,24 @@ abstract class AbstractAxstradKernel extends Kernel
         $loader->load($dir . '/config.yml');
     }
 
+    protected function getUniqueAppDir()
+    {
+        if ($this->uniqueAppDir === null) {
+            $this->uniqueAppDir = sys_get_temp_dir() .
+                DIRECTORY_SEPARATOR .
+                'AxstradTestBundleCache'.
+                DIRECTORY_SEPARATOR .
+                $this->getEnvironment()
+            ;
+
+            // if (in_array('--debug', $_SERVER['argv'])) {
+            //     echo 'App Dir: '.$this->uniqueAppDir."\n";
+            // }
+        }
+
+        return $this->uniqueAppDir;
+    }
+
     /**
      * Return Cache dir
      *
@@ -44,12 +75,7 @@ abstract class AbstractAxstradKernel extends Kernel
      */
     public function getCacheDir()
     {
-        return  sys_get_temp_dir() .
-        DIRECTORY_SEPARATOR .
-        'Axstrad' .
-        DIRECTORY_SEPARATOR .
-        $this->getContainerClass() . '/Cache/';
-
+        return $this->getUniqueAppDir() . '/Cache/';
     }
 
     /**
@@ -59,10 +85,6 @@ abstract class AbstractAxstradKernel extends Kernel
      */
     public function getLogDir()
     {
-        return  sys_get_temp_dir() .
-        DIRECTORY_SEPARATOR .
-        'Axstrad' .
-        DIRECTORY_SEPARATOR .
-        $this->getContainerClass() . '/Log/';
+        return $this->getUniqueAppDir() . '/Log/';
     }
 }

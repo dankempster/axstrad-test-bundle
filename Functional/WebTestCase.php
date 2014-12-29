@@ -71,9 +71,12 @@ abstract class WebTestCase extends BaseWebTestCase
             static::$application->setAutoExit(false);
             $this->container = static::$kernel->getContainer();
 
-        } catch (Exception $e) {
-
-            throw new RuntimeException(sprintf('Unable to start the application: %s', $e->getMessage()));
+        }
+        catch (Exception $e) {
+            throw new RuntimeException(sprintf(
+                'Unable to start the application: %s',
+                get_class($e).':'.$e->getMessage()
+            ));
         }
 
         $this->createSchema();
@@ -227,6 +230,29 @@ abstract class WebTestCase extends BaseWebTestCase
         return $this;
     }
 
+    protected static function getBundleAndTestCaseName()
+    {
+        $return = array(
+            'bundleName' => '',
+            'bundleNamespace' => '',
+            'testCaseName' => 'Default',
+        );
+
+        $appKernelLoc = '\\app\\AppKernel';
+        $namespaceExploded = explode('\\Tests\\Functional\\', get_called_class(), 2);
+
+        $return['bundleNamespace'] = $namespaceExploded[0];
+        $bundleNamespaceParts = explode('\\', $namespaceExploded[0]);
+        $return['bundleName'] = array_shift($bundleNamespaceParts).array_pop($bundleNamespaceParts);
+
+        $parts = explode('\\', $namespaceExploded[1]);
+        if (count($parts) > 1) {
+            $return['testCaseName'] = array_shift($parts);
+        }
+
+        return $return;
+    }
+
     /**
      * Attempts to guess the kernel location.
      *
@@ -238,8 +264,19 @@ abstract class WebTestCase extends BaseWebTestCase
      */
     protected static function getKernelClass()
     {
+        $testInfo = self::getBundleAndTestCaseName();
+
         $namespaceExploded = explode('\\Tests\\Functional\\', get_called_class(), 2);
-        $kernelClass = $namespaceExploded[0] . '\\Tests\\Functional\\app\\AppKernel';
+
+        $baseNamespace = $testInfo['bundleNamespace'].'\\Tests\\Functional';
+
+        if (isset($testInfo['testCaseName']) &&
+            class_exists($baseNamespace.'\\'.$testInfo['testCaseName'].'\\app\\AppKernel')
+        ) {
+            $baseNamespace .= '\\'.$testInfo['testCaseName'];
+        }
+
+        $kernelClass = $baseNamespace . '\\app\\AppKernel';
 
         return $kernelClass;
     }
@@ -271,12 +308,16 @@ abstract class WebTestCase extends BaseWebTestCase
      */
     protected static function createKernel(array $options = array())
     {
+        $testInfo = self::getBundleAndTestCaseName();
+        $env = $testInfo['bundleName'];
+        if (!empty($testInfo['testCaseName'])) {
+            $env .= '_'.$testInfo['testCaseName'];
+        }
+        else {
+            $env .= 'Test';
+        }
+
         static::$class = static::getKernelClass();
-
-        $namespaceExploded = explode('\\Tests\\Functional\\', get_called_class(), 2);
-        $bundleName = explode('Axstrad\\', $namespaceExploded[0], 2)[1];
-        $bundleName = str_replace('\\', '_', $bundleName);
-
-        return new static::$class($bundleName . 'Test', true);
+        return new static::$class($env, true, $testInfo);
     }
 }
