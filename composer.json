@@ -3,7 +3,7 @@
     "type": "symfony-bundle",
     "description": "Symfony 2 Bundle for testing my other bundles",
     "keywords": [],
-    "license": "GPL-2.0",
+    "license": "MIT",
     "authors": [
         {
             "name": "Dan Kempster",
