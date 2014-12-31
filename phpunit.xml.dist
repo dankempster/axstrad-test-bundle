@@ -4,33 +4,34 @@
          backupGlobals="false"
          backupStaticAttributes="false"
          colors="true"
-         strict="true"
+         strict="false"
          verbose="false">
 
     <testsuites>
-        <testsuite name="Axstrad\TestBundle">
+        <testsuite name="Axstrad/TestBundle">
             <file>./Functional/WebTestCase.php</file>
         </testsuite>
     </testsuites>
 
-    <!-- <logging>
-        <log type="coverage-html"
+    <logging>
+        <!-- <log type="coverage-html"
              target="build/coverage"
-             title="Axstrad Library"
+             title="Axstrad/TestBundle"
              charset="UTF-8"
              yui="true"
              highlight="true"
              lowUpperBound="35"
              highLowerBound="70"
-        />
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
-        <log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false"/>
-    </logging> -->
+        /> -->
+        <!-- <log type="coverage-clover" target="build/logs/clover.xml"/> -->
+        <!-- <log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false"/> -->
+    </logging>
 
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">.</directory>
             <exclude>
+                <directory>./Tests</directory>
                 <directory>./vendor</directory>
             </exclude>
         </whitelist>
