@@ -14,8 +14,7 @@
     "require": {
         "php": ">=5.4",
         "phpunit/phpunit": "~4.1",
-        "symfony/console": "~2.3",
-        "symfony/framework-bundle": "~2.3"
+        "symfony/symfony": "~2.3"
     },
 
     "autoload": {
