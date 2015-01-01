@@ -1,8 +1,9 @@
 {
     "name": "axstrad/test-bundle",
     "type": "symfony-bundle",
-    "description": "Symfony 2 Bundle for testing my other bundles",
-    "keywords": [],
+    "description": "Symfony 2 bundle for testing the other Axstrad bundles",
+    "keywords": ["axstrad", "test"],
+
     "license": "MIT",
     "authors": [
         {
@@ -15,6 +16,10 @@
         "php": ">=5.4",
         "phpunit/phpunit": "~4.1",
         "symfony/symfony": "~2.3"
+    },
+
+    "require-dev": {
+        "satooshi/php-coveralls": "dev-master"
     },
 
     "autoload": {
