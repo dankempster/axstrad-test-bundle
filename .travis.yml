@@ -1,6 +1,7 @@
 language: php
 php:
   - 5.4
+  - hhvm
 env:
   - SYMFONY_VERSION="2.3.*"
   - SYMFONY_VERSION="2.6.*"
@@ -23,6 +24,7 @@ matrix:
 
   allow_failures:
     - env: SYMFONY_VERSION="2.7.*@dev"
+    - php: hhvm
 
   fast_finish: true
 
