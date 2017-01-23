@@ -5,8 +5,22 @@ php:
 env:
   - SYMFONY_VERSION="2.3.*"
   - SYMFONY_VERSION="2.6.*"
-before_script:
+  - SYMFONY_VERSION="2.7.*@dev"
+  # - SYMFONY_VERSION="3.0.*@dev"
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+# Set up the project for testing
+before_install:
+  - echo "memory_limit=1536M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+install:
   - composer require symfony/symfony:${SYMFONY_VERSION} --prefer-dist
+
+# Run Tests
+before_script:
+  - mkdir -p build/logs/
 script:
   - php ./vendor/bin/phpunit --coverage-clover=build/logs/clover.xml
 after_script:
