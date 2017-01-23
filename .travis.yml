@@ -6,6 +6,7 @@ env:
   - SYMFONY_VERSION="2.3.*"
   - SYMFONY_VERSION="2.6.*"
 before_script:
+  - echo "memory_limit=520M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer require symfony/symfony:${SYMFONY_VERSION} --prefer-dist
 script:
   - php ./vendor/bin/phpunit --coverage-clover=build/logs/clover.xml
