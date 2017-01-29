@@ -18,10 +18,6 @@
         "symfony/symfony": "~2.3"
     },
 
-    "require-dev": {
-        "satooshi/php-coveralls": "dev-master"
-    },
-
     "autoload": {
         "psr-4": {
             "Axstrad\\Bundle\\TestBundle\\": ""
